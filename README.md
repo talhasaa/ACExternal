@@ -7,6 +7,8 @@ An external cheat for Assault Cube with ImGui overlay.
 - Customizable ESP
 - Customizable AimBot
 
+The AimBot is activated by holding down either Left Click or Left Ctrl.
+
 # Showcase
 
 [![Showcase](https://img.youtube.com/vi/o_ry8-986T0/maxresdefault.jpg)](https://www.youtube.com/watch?v=o_ry8-986T0)
