@@ -18,7 +18,7 @@ The AimBot is activated by holding down either Left Click or Left Ctrl.
 You can use `git clone` to clone the repository.
 You need to have [CMake](https://cmake.org/getting-started/), [vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), [MinGW compiler](https://code.visualstudio.com/docs/cpp/config-mingw) and [Ninja](https://ninja-build.org) installed.
 
-**Make sure to edit the `CMakePresets.json` file before compiling.**
+You can edit the `CMakePresets.json` file before compiling.
 
 To build for release:
 
