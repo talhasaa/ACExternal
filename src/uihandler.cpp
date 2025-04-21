@@ -135,7 +135,7 @@ int uiRender(std::atomic<bool> &isRunning)
             std::lock_guard<std::mutex> lock(mutex);
             EntityManager& entityManager = programData.entityManager;
             std::vector<Entity>& entityList = entityManager.getEntityList();
-            std::vector<std::pair<Vector3, Vector3>> screenPosList = entityManager.getScreenPositionList();
+            std::vector<std::pair<Vector3, Vector3>>& screenPosList = entityManager.getScreenPositionList();
 
             mainMenu(uiData);
             

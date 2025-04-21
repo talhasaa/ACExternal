@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <atomic>
 #include <cmath>
+#include <utility>
 #include <windows.h>
 #include <tlhelp32.h>
 
