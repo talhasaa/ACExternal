@@ -23,6 +23,9 @@ static bool                     g_SwapChainOccluded = false;
 static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;
 static ID3D11RenderTargetView*  g_mainRenderTargetView = nullptr;
 
+static bool menuToggled = true;
+static bool menuToggleKeyPressedLastFrame = false;
+
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
@@ -131,20 +134,44 @@ int uiRender(std::atomic<bool> &isRunning)
         ImGui::NewFrame();
         ImDrawList* draw_list = ImGui::GetForegroundDrawList();
 
+        bool menuToggleKeyCurrentlyPressed = GetAsyncKeyState(VK_INSERT) & 0x8000; // Menu toggle key
+
+        if (menuToggleKeyCurrentlyPressed && !menuToggleKeyPressedLastFrame) {
+            menuToggled = !menuToggled;
+
+            LONG_PTR exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+            if (menuToggled) {
+                exStyle &= ~WS_EX_TRANSPARENT;
+            } else {
+                exStyle |= WS_EX_TRANSPARENT;
+            }
+
+            SetWindowLongPtr(hwnd, GWL_EXSTYLE, exStyle);
+            SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        }
+
+        menuToggleKeyPressedLastFrame = menuToggleKeyCurrentlyPressed;
+
         {
             std::lock_guard<std::mutex> lock(mutex);
             EntityManager& entityManager = programData.entityManager;
+            Entity& localPlayer = entityManager.getLocalPlayer();
             std::vector<Entity>& entityList = entityManager.getEntityList();
             std::vector<std::pair<Vector3, Vector3>>& screenPosList = entityManager.getScreenPositionList();
 
-            mainMenu(uiData);
+            if (menuToggled) {
+                mainMenu(uiData);
+            }
             
-            if (uiData.espEnabled) {
-                renderEsp(programData, uiData, draw_list, entityList, screenPosList);
-            };
-            if (uiData.aimBotEnabled) {
-                renderAimBot(programData, uiData, draw_list);
-            };
+            HWND foregroundWindow = GetForegroundWindow();
+            if (foregroundWindow == programData.gameWindowHwnd || foregroundWindow == hwnd) {
+                if (uiData.espEnabled) {
+                    renderEsp(programData, uiData, draw_list, localPlayer, entityList, screenPosList);
+                };
+                if (uiData.aimBotEnabled) {
+                    renderAimBot(programData, uiData, draw_list);
+                };
+            }
         };
         
         // Rendering

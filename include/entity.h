@@ -17,6 +17,7 @@ private:
 
     int32_t health;
     int32_t armor;
+    int32_t team;
 
     //std::string playerName;
 
@@ -44,6 +45,8 @@ public:
 
     int32_t getArmor();
     void setArmor(HANDLE hProcess, int32_t armor);
+
+    int32_t getTeam();
 
     int32_t getCurrentWpCurrentAmmo();
     void setCurrentWpCurrentAmmo(HANDLE hProcess, int32_t currAmmoValue);

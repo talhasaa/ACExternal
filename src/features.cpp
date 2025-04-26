@@ -3,7 +3,7 @@
 #include "programdata.h"
 #include "ui.h"
 
-void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, std::vector<Entity>& entityList, std::vector<std::pair<Vector3, Vector3>>& posList) {
+void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, Entity& localPlayer, std::vector<Entity>& entityList, std::vector<std::pair<Vector3, Vector3>>& posList) {
     Vector2 windowSize = programData.windowSize;
     Vector2 windowPosition = programData.windowPos;
 
@@ -14,6 +14,8 @@ void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, 
 
     int index = 0;
     for (Entity& entity : entityList) {
+        bool sameTeam = entity.getTeam() == localPlayer.getTeam();
+
         int32_t health = entity.getHealth();
         int32_t armor = entity.getArmor();
         if (health <= 0) {
@@ -24,6 +26,15 @@ void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, 
         std::pair<Vector3, Vector3>& entityPositions = posList[index];
         Vector3 headPosition = entityPositions.first;
         Vector3 bodyPosition = entityPositions.second;
+
+        if (bodyPosition.x < windowPosition.x ||
+            bodyPosition.x > windowPosition.x + windowSize.x ||
+            bodyPosition.y < windowPosition.y ||
+            bodyPosition.y > windowPosition.y + windowSize.y)
+        {
+            index++;
+            continue;
+        };
 
         float size = baseSize / (bodyPosition.z * 0.1f);
         float halfSize = size / 2.0f;
@@ -37,6 +48,25 @@ void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, 
         int hGreen = (int)(hNormalized * 255);
 
         ImColor healthBarColor(hRed, hGreen, 0, 255);
+
+        float teamIndicatorBaseSize = size/50;
+
+        ImColor teamColor = sameTeam ? ImColor(60, 0, 255, 255) : ImColor(255, 20, 20, 255);
+        ImVec2 teamIndicatorCenter(headPosition.x, topLeft.y - (10.0f * teamIndicatorBaseSize));
+
+        if (sameTeam) {
+            if (uiData.teamIndicatorTeammateEnabled) {
+                draw_list->AddCircleFilled(teamIndicatorCenter, 5.0f * teamIndicatorBaseSize, teamColor);
+            }
+            if (!uiData.drawTeammates) {
+                index++;
+                continue;
+            }
+        } else {
+            if (uiData.teamIndicatorEnemyEnabled) {
+                draw_list->AddCircleFilled(teamIndicatorCenter, 5.0f * teamIndicatorBaseSize, teamColor);
+            }
+        }
 
         if (uiData.statusBarsEnabled) {
             float calculatedBarOutlineWidth = 10.0f + size * 0.05f;
@@ -115,6 +145,13 @@ void runAimBot(ProgramData& programData, UIData& uiData, std::vector<Entity>& en
 
     int index = 0;
     for (Entity& entity : entityList) {
+        if (!uiData.lockTeammates) {
+            if (entity.getTeam() == localPlayer.getTeam()) {
+                index++;
+                continue;
+            }
+        }
+
         std::pair<Vector3, Vector3>& entityPositions = posList[index];
         Vector3 entityHeadPos = entityPositions.first;
         Vector2 rawEntityHeadPos = { entityHeadPos.x, entityHeadPos.y };

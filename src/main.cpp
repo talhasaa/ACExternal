@@ -47,6 +47,7 @@ int main() {
 
     ProgramData& programData = ProgramData::getInstance();
     programData.handle = hProcess;
+    programData.gameWindowHwnd = hwnd;
     programData.baseAddress = GetModuleBaseAddress(pid, "ac_client.exe");
     programData.viewMatrix = vMatrix;
     programData.monitorSize = monitorSize;
@@ -55,7 +56,7 @@ int main() {
     programData.aimBotLocked = false;
 
     std::atomic<bool> isRunning(true);
-    std::cout << "\n# Launching UI and main thread.." << std::endl;
+    std::cout << "\n# Launching UI and main threads.." << std::endl;
     std::thread uiThread(uiRender, std::ref(isRunning));
     std::thread mainThread(mainLoop, std::ref(isRunning));
 

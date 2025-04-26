@@ -9,11 +9,15 @@ An external cheat for Assault Cube with ImGui overlay.
 
 The AimBot is activated by holding down either Left Click or Left Ctrl.
 
+# How to Use
+
+Run ACExternal.exe while your character is alive in the game. Enjoy!
+
 # Showcase
 
 [![Showcase](https://img.youtube.com/vi/o_ry8-986T0/maxresdefault.jpg)](https://www.youtube.com/watch?v=o_ry8-986T0)
 
-# How to build
+# How to Build
 
 You can use `git clone` to clone the repository.
 You need to have [CMake](https://cmake.org/getting-started/), [vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), [MinGW compiler](https://code.visualstudio.com/docs/cpp/config-mingw) and [Ninja](https://ninja-build.org) installed.

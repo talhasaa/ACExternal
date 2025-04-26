@@ -20,6 +20,7 @@ namespace Offsets
         //const uint32_t walkDirectionOff     = 0x0074;
         const uint32_t healthOff            = 0x00EC;
         const uint32_t armorOff             = 0x00F0;
+        const uint32_t teamOff              = 0x030C;
         //const uint32_t shootingOff          = 0x0204;
         //const uint32_t playerNameOff        = 0x0205;
         const uint32_t currentWeaponPtrOff  = 0x0374;

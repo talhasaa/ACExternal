@@ -15,6 +15,7 @@ int Entity::Update(ProgramData& programData) {
     if (memory.ReadVector2(Offsets::Entity::cameraPositionOff, cameraPosition) != 0) return 1;
     if (memory.ReadInt32(Offsets::Entity::healthOff, health) != 0) return 1;
     if (memory.ReadInt32(Offsets::Entity::armorOff, armor) != 0) return 1;
+    if (memory.ReadInt32(Offsets::Entity::teamOff, team) != 0) return 1;
 
     uint32_t weaponAddr;
     if (memory.ReadPointer(Offsets::Entity::currentWeaponPtrOff, weaponAddr) != 0) return 1;
@@ -82,6 +83,10 @@ void Entity::setArmor(HANDLE hProcess, int32_t armor) {
     MemoryHelper memory(hProcess);
     memory.setBase(address);
     memory.WriteInt32(Offsets::Entity::armorOff, armor);
+}
+
+int32_t Entity::getTeam() {
+    return team;
 }
 
 int32_t Entity::getCurrentWpCurrentAmmo() {

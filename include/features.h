@@ -5,7 +5,7 @@
 #include "programdata.h"
 #include "entity.h"
 
-void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, std::vector<Entity>& entityList, std::vector<std::pair<Vector3, Vector3>>& posList);
+void renderEsp(ProgramData& programData, UIData& uiData, ImDrawList* draw_list, Entity& localPlayer, std::vector<Entity>& entityList, std::vector<std::pair<Vector3, Vector3>>& posList);
 void renderAimBot(ProgramData& programData, UIData& uiData, ImDrawList* draw_list);
 void runAimBot(ProgramData& programData, UIData& uiData, std::vector<Entity>& entityList, Entity& localPlayer, std::vector<std::pair<Vector3, Vector3>>& posList);
 
