@@ -18,9 +18,9 @@ struct UIData {
     int32_t maxAmmo = 0;
 
     bool espEnabled = false;
-    bool drawTeammates = true;
-    bool teamIndicatorTeammateEnabled = false;
-    bool teamIndicatorEnemyEnabled = true;
+    bool drawTeammates = false;
+    bool teamIndicatorTeammateEnabled = true;
+    bool teamIndicatorEnemyEnabled = false;
     bool tracerLinesEnabled = true;
     bool statusBarsEnabled = true;
     bool headCircleEnabled = true;
